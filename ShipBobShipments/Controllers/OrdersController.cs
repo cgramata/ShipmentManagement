@@ -24,6 +24,8 @@ namespace ShipBobShipments.Controllers
                 orders = db.Orders.Include(o => o.User);
                 return View(orders.ToList());
             }
+
+            ViewBag.userId = id;
             orders = orders.Where(o => o.UserID == id);
             return View(orders);         
         }
@@ -44,8 +46,14 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Orders/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.userIdentity = id;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName");
             return View();
         }
