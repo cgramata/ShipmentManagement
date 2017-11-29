@@ -5,7 +5,7 @@
 }
 
 <h2>Edit Order</h2>
-<h3>For User: @Html.DisplayFor(model => model.User.UserFirstName, null)</h3>
+<h4>For User: @ViewBag.userName</h4>
 
 @using (Html.BeginForm())
 
@@ -18,10 +18,10 @@
         @Html.HiddenFor(model => model.OrderID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
                 
-                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.HiddenFor(model => model.UserID, new { @class = "form-control", Value = @ViewBag.userIdentity })
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div>
         </div>

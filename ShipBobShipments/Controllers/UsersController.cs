@@ -28,12 +28,7 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //User user = db.Users.Find(id);
-            //orders = orders.Where(s => s.UserID == id);
-            //if (orders == null)
-            //{
-            //    return HttpNotFound();
-            //}
+            
             return RedirectToAction("Index", "Orders", new {id});
         }
 

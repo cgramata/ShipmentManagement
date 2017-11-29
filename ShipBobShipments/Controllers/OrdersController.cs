@@ -53,6 +53,10 @@ namespace ShipBobShipments.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+
+
+            ViewBag.userFirstName = db.Users.Find(id).UserFirstName;
+            ViewBag.userLastName = db.Users.Find(id).UserLastName;
             ViewBag.userIdentity = id;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName");
             return View();
@@ -69,7 +73,7 @@ namespace ShipBobShipments.Controllers
             {
                 db.Orders.Add(orders);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Orders", new { id=orders.UserID });
             }
 
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
@@ -83,13 +87,15 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Orders orders = db.Orders.Find(id);
             User users = db.Users.Find(orders.UserID);
-            string userName = users.UserFirstName;
-            if (orders == null)
+            if (orders == null || users == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
+            ViewBag.userIdentity = users.UserID;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
             return View(orders);
         }
@@ -105,7 +111,7 @@ namespace ShipBobShipments.Controllers
             {
                 db.Entry(orders).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Orders", new { id=orders.UserID});
             }
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
             return View(orders);
