@@ -21,6 +21,14 @@ namespace ShipBobShipments.Controllers
             return View(db.Users.ToList());
         }
 
+        // GET: User rows from the table and return as a Json
+        public JsonResult GetUserList()
+        {
+            List<User> users = new List<User>();
+            users = db.Users.OrderBy(user => user.UserID).ToList();
+            return new JsonResult { Data = users, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         // GET: User details
         public ActionResult Orders(int? userId)
         {

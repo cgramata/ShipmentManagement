@@ -4,36 +4,50 @@
     ViewBag.Title = "Index";
 }
 
+@section scripts{
+    <script src="~/JS/UserIndexController.js"></script>
+}
 <h2>Create User</h2>
 
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserFirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserLastName)
-        </th>
-        <th></th>
-    </tr>
+<div ng-controller="UserIndexController">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserLastName)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserFirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserLastName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { userId = item.UserID }) |
-            @Html.ActionLink("Orders", "Orders", new { userId = item.UserID}) |
-            @Html.ActionLink("Delete", "Delete", new { userId = item.UserID })
-        </td>
-    </tr>
-}
+        <tr ng-repeat="user in userList">
+            <td>
+                {{user.UserFirstName}}
+            </td>
+            <td>
+                {{user.UserLastName}}
+            </td>
+        </tr>
+        @*@foreach (var item in model) {
+                <tr>
+                    <td>
+                        @html.displayfor(modelitem => item.userfirstname)
+                    </td>
+                    <td>
+                        @html.displayfor(modelitem => item.userlastname)
+                    </td>
+                    <td>
+                        @html.actionlink("edit", "edit", new { userid = item.userid }) |
+                        @html.actionlink("orders", "orders", new { userid = item.userid}) |
+                        @html.actionlink("delete", "delete", new { userid = item.userid })
+                    </td>
+                </tr>
+            }*@
 
-</table>
+    </table>
+</div>
+
