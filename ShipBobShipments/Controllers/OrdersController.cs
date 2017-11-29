@@ -24,7 +24,6 @@ namespace ShipBobShipments.Controllers
                 orders = db.Orders.Include(o => o.User);
                 return View(orders.ToList());
             }
-
             ViewBag.userId = userId;
             orders = orders.Where(o => o.UserID == userId);
             return View(orders);         
@@ -52,8 +51,6 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-
             User users = db.Users.Find(userId);
             ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
             ViewBag.userIdNum = userId;
@@ -74,7 +71,6 @@ namespace ShipBobShipments.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Orders", new { userId = orders.UserID });
             }
-
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
             return View(orders);
         }
@@ -86,7 +82,6 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             Orders orders = db.Orders.Find(id);
             User users = db.Users.Find(orders.UserID);
             if (orders == null || users == null)

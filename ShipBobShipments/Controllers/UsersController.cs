@@ -28,7 +28,6 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
             return RedirectToAction("Index", "Orders", new { userId });
         }
 
