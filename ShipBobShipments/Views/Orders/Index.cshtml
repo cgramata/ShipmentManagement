@@ -63,9 +63,9 @@
             @Html.DisplayFor(modelItem => item.Zipcode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderID })
+            @Html.ActionLink("Edit", "Edit", new { orderId = item.OrderID }) |
+            @Html.ActionLink("Details", "Details", new { orderId = item.OrderID }) |
+            @Html.ActionLink("Delete", "Delete", new { orderId = item.OrderID })
         </td>
     </tr>
 

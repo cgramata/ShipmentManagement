@@ -30,13 +30,13 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Orders/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? orderId)
         {
-            if (id == null)
+            if (orderId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orders orders = db.Orders.Find(id);
+            Orders orders = db.Orders.Find(orderId);
             if (orders == null)
             {
                 return HttpNotFound();
@@ -76,13 +76,13 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Orders/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? orderId)
         {
-            if (id == null)
+            if (orderId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orders orders = db.Orders.Find(id);
+            Orders orders = db.Orders.Find(orderId);
             User users = db.Users.Find(orders.UserID);
             if (orders == null || users == null)
             {
@@ -112,13 +112,13 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Orders/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? orderId)
         {
-            if (id == null)
+            if (orderId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orders orders = db.Orders.Find(id);
+            Orders orders = db.Orders.Find(orderId);
             if (orders == null)
             {
                 return HttpNotFound();
@@ -130,9 +130,9 @@ namespace ShipBobShipments.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int orderId)
         {
-            Orders orders = db.Orders.Find(id);
+            Orders orders = db.Orders.Find(orderId);
             int userId = orders.UserID;
             db.Orders.Remove(orders);
             db.SaveChanges();
