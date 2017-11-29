@@ -21,7 +21,7 @@ namespace ShipBobShipments.Controllers
             return View(db.Users.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: User details
         public ActionResult Orders(int? userId)
         {
             if (userId == null)

@@ -15,10 +15,10 @@ namespace ShipBobShipments.Controllers
     {
         private ShipmentDBContext db = new ShipmentDBContext();
 
-        // GET: Orders
+        // GET: Orders specific to the user
         public ActionResult Index(int? userId)
         {
-            var orders = from o in db.Orders select o;
+            var orders = from order in db.Orders select order;
             if (userId == null)
             {
                 orders = db.Orders.Include(o => o.User);
