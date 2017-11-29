@@ -22,14 +22,14 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Users/Details/5
-        public ActionResult Orders(int? id)
+        public ActionResult Orders(int? userId)
         {
-            if (id == null)
+            if (userId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-            return RedirectToAction("Index", "Orders", new {id});
+            return RedirectToAction("Index", "Orders", new { userId });
         }
 
         // GET: Users/Create
@@ -56,13 +56,13 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? userId)
         {
-            if (id == null)
+            if (userId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(userId);
             if (user == null)
             {
                 return HttpNotFound();
@@ -87,13 +87,13 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Users/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? userId)
         {
-            if (id == null)
+            if (userId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(userId);
             if (user == null)
             {
                 return HttpNotFound();
@@ -104,9 +104,9 @@ namespace ShipBobShipments.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int userId)
         {
-            User user = db.Users.Find(id);
+            User user = db.Users.Find(userId);
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");

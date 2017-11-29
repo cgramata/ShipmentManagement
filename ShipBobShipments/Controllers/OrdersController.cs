@@ -16,17 +16,17 @@ namespace ShipBobShipments.Controllers
         private ShipmentDBContext db = new ShipmentDBContext();
 
         // GET: Orders
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? userId)
         {
             var orders = from o in db.Orders select o;
-            if (id == null)
+            if (userId == null)
             {
                 orders = db.Orders.Include(o => o.User);
                 return View(orders.ToList());
             }
 
-            ViewBag.userId = id;
-            orders = orders.Where(o => o.UserID == id);
+            ViewBag.userId = userId;
+            orders = orders.Where(o => o.UserID == userId);
             return View(orders);         
         }
 
@@ -46,18 +46,17 @@ namespace ShipBobShipments.Controllers
         }
 
         // GET: Orders/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(int? userId)
         {
-            if (id == null)
+            if (userId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
 
-
-            ViewBag.userFirstName = db.Users.Find(id).UserFirstName;
-            ViewBag.userLastName = db.Users.Find(id).UserLastName;
-            ViewBag.userIdentity = id;
+            User users = db.Users.Find(userId);
+            ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
+            ViewBag.userIdNum = userId;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName");
             return View();
         }
@@ -73,7 +72,7 @@ namespace ShipBobShipments.Controllers
             {
                 db.Orders.Add(orders);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Orders", new { id=orders.UserID });
+                return RedirectToAction("Index", "Orders", new { userId = orders.UserID });
             }
 
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
@@ -95,7 +94,7 @@ namespace ShipBobShipments.Controllers
                 return HttpNotFound();
             }
             ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
-            ViewBag.userIdentity = users.UserID;
+            ViewBag.userIdNum = users.UserID;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
             return View(orders);
         }
@@ -111,7 +110,7 @@ namespace ShipBobShipments.Controllers
             {
                 db.Entry(orders).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", "Orders", new { id=orders.UserID});
+                return RedirectToAction("Index", "Orders", new { userId = orders.UserID});
             }
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
             return View(orders);
@@ -129,6 +128,7 @@ namespace ShipBobShipments.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.userId = orders.UserID;
             return View(orders);
         }
 
@@ -138,9 +138,10 @@ namespace ShipBobShipments.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Orders orders = db.Orders.Find(id);
+            int userId = orders.UserID;
             db.Orders.Remove(orders);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Orders", new {userId});
         }
 
         protected override void Dispose(bool disposing)
