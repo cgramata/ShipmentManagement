@@ -1,28 +1,18 @@
 ﻿@model IEnumerable<ShipBobShipments.Models.User>
-
 @{
     ViewBag.Title = "Index";
 }
-
-
 <script type="text/javascript">
-        window.jj = eval('@Html.Raw(@ViewBag.UserServerObject)');
+        //NOTE: Should refactor to local scope
+        window.userInfo = @Html.Raw(Json.Encode(@ViewBag.UserServerObject));
 </script>
 @section scripts{
-
-
     <script src="~/JS/UserIndexController.js"></script>
 }
-
-
-
 <h2>Create User</h2>
-
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
-
-
 <div ng-controller="UserIndexController">
     <table class="table">
         <tr>
@@ -34,7 +24,6 @@
             </th>
             <th></th>
         </tr>
-
         <tr ng-repeat="user in userList">
             <td>
                 {{user.UserFirstName}}
@@ -48,18 +37,5 @@
                 <a href="/Users/Delete?userId={{user.UserID}}">Delete</a>
             </td>
         </tr>
-
-        @*@foreach (var item in Model) {
-                <tr>
-                   
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { userid = item.UserID }) |
-                        @Html.ActionLink("Orders", "Orders", new { userid = item.UserID }) |
-                        @Html.ActionLink("delete", "delete", new { userid = item.UserID })
-                    </td>
-                </tr>
-          }*@
-
     </table>
 </div>
-&nbsp;

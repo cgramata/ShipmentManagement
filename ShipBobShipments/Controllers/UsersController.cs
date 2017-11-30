@@ -20,25 +20,17 @@ namespace ShipBobShipments.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var query = db.Users;
+            var userList = db.Users.ToList();
         
-            var users = query.Select(v => new {
-                UserFirstName = v.UserFirstName,
+            var users = userList.Select(v => new {
                 UserID = v.UserID,
+                UserFirstName = v.UserFirstName,
                 UserLastName = v.UserLastName
-            }).ToList();
-            ViewBag.UserServerObject = new JavaScriptSerializer().Serialize(users);
-            //return View(db.Users.ToList());
-            return View(query.ToList());
-        }
+            });
 
-        // GET: User rows from the table and return as a Json
-        //public JsonResult GetUserList()
-        //{
-        //    List<User> users = new List<User>();
-        //    users = db.Users.OrderBy(user => user.UserID).ToList();
-        //    return new JsonResult { Data = users, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        //}
+            ViewBag.UserServerObject = users;
+            return View(userList);
+        }
 
         // GET: User details
         public ActionResult Orders(int? userId)

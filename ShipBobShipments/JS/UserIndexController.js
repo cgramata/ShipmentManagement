@@ -1,4 +1,4 @@
 ﻿angular.module('myUserIndex', [])
 .controller('UserIndexController', function ($scope) {
-    $scope.userList = window.jj;
+    $scope.userList = window.userInfo;
 })
