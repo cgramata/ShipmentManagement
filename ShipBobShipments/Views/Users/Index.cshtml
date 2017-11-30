@@ -4,18 +4,24 @@
     ViewBag.Title = "Index";
 }
 
+
+<script type="text/javascript">
+        window.jj = eval('@Html.Raw(@ViewBag.UserServerObject)');
+</script>
 @section scripts{
+
+
     <script src="~/JS/UserIndexController.js"></script>
 }
+
+
+
 <h2>Create User</h2>
 
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
-@Html.Raw(ViewBag.UserServerObject)
 
-@{ var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-   var userInfoJson = jss.Serialize(ViewBag.User)}
 
 <div ng-controller="UserIndexController">
     <table class="table">
@@ -36,23 +42,24 @@
             <td>
                 {{user.UserLastName}}
             </td>
+            <td>
+                <a href="/Users/Edit?userId={{user.UserID}}">Edit</a>&nbsp;|&nbsp;
+                <a href="/Users/Orders?userId={{user.UserID}}">Orders</a>&nbsp;|&nbsp;
+                <a href="/Users/Delete?userId={{user.UserID}}">Delete</a>
+            </td>
         </tr>
-        @*@foreach (var item in model) {
+
+        @*@foreach (var item in Model) {
                 <tr>
+                   
                     <td>
-                        @html.displayfor(modelitem => item.userfirstname)
-                    </td>
-                    <td>
-                        @html.displayfor(modelitem => item.userlastname)
-                    </td>
-                    <td>
-                        @html.actionlink("edit", "edit", new { userid = item.userid }) |
-                        @html.actionlink("orders", "orders", new { userid = item.userid}) |
-                        @html.actionlink("delete", "delete", new { userid = item.userid })
+                        @Html.ActionLink("Edit", "Edit", new { userid = item.UserID }) |
+                        @Html.ActionLink("Orders", "Orders", new { userid = item.UserID }) |
+                        @Html.ActionLink("delete", "delete", new { userid = item.UserID })
                     </td>
                 </tr>
-            }*@
+          }*@
 
     </table>
 </div>
-
+&nbsp;

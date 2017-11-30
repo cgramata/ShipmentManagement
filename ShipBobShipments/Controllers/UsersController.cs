@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using ShipBobShipments.DAL;
 using ShipBobShipments.Models;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace ShipBobShipments.Controllers
 {
@@ -18,9 +20,16 @@ namespace ShipBobShipments.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            ViewBag.UserServerObject = db.Users.ToList();
+            var query = db.Users;
+        
+            var users = query.Select(v => new {
+                UserFirstName = v.UserFirstName,
+                UserID = v.UserID,
+                UserLastName = v.UserLastName
+            }).ToList();
+            ViewBag.UserServerObject = new JavaScriptSerializer().Serialize(users);
             //return View(db.Users.ToList());
-            return View();
+            return View(query.ToList());
         }
 
         // GET: User rows from the table and return as a Json
