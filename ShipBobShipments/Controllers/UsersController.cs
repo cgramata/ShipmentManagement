@@ -20,6 +20,7 @@ namespace ShipBobShipments.Controllers
         // GET: Users
         public ActionResult Index()
         {
+            //possible repository 
             var userList = db.Users.ToList();
         
             var users = userList.Select(v => new {
