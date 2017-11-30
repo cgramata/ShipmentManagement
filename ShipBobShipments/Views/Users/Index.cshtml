@@ -6,10 +6,7 @@
         //NOTE: Should refactor to local scope
         window.userInfo = @Html.Raw(Json.Encode(@ViewBag.UserServerObject));
 </script>
-@section scripts{
-    <script src="~/JS/UserIndexController.js"></script>
-}
-<h2>Create User</h2>
+<h2>Users</h2>
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
@@ -32,10 +29,13 @@
                 {{user.UserLastName}}
             </td>
             <td>
-                <a href="/Users/Edit?userId={{user.UserID}}">Edit</a>&nbsp;|&nbsp;
-                <a href="/Users/Orders?userId={{user.UserID}}">Orders</a>&nbsp;|&nbsp;
+                <a href="/Users/Edit?userId={{user.UserID}}">Edit</a>&nbsp;|
+                <a href="/Users/Orders?userId={{user.UserID}}">Orders</a>&nbsp;|
                 <a href="/Users/Delete?userId={{user.UserID}}">Delete</a>
             </td>
         </tr>
     </table>
 </div>
+@section scripts{
+    <script src="~/JS/UserIndexController.js"></script>
+}

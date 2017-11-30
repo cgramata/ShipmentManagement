@@ -33,7 +33,7 @@ namespace ShipBobShipments.Controllers
             return View(userList);
         }
 
-        // GET: User details
+        //Redirects to Order's index page with userId
         public ActionResult Orders(int? userId)
         {
             if (userId == null)
