@@ -1,18 +1,14 @@
 ﻿@model ShipBobShipments.Models.Orders
-
 @{
     ViewBag.Title = "Create";
 }
-
 <h2>Create Order</h2>
 <h4>For User: @ViewBag.userName</h4>
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -22,7 +18,6 @@
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.TrackingId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -30,7 +25,6 @@
                 @Html.ValidationMessageFor(model => model.TrackingId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.RecipientName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -38,7 +32,6 @@
                 @Html.ValidationMessageFor(model => model.RecipientName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.StreetAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -46,7 +39,6 @@
                 @Html.ValidationMessageFor(model => model.StreetAddress, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -54,7 +46,6 @@
                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -62,7 +53,6 @@
                 @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -70,7 +60,6 @@
                 @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -78,11 +67,9 @@
         </div>
     </div>
 }
-
 <div>
-    @Html.ActionLink("Back to List", "Index", new { userId = @ViewBag.userId } )
+    @Html.ActionLink("Back to List", "Index", new { userId = @ViewBag.userIdNum } )
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

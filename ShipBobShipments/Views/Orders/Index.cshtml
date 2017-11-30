@@ -1,23 +1,16 @@
 ﻿@model IEnumerable<ShipBobShipments.Models.Orders>
-
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Orders</h2>
-
+<h2>Orders List</h2>
+<h4>User: @ViewBag.userName</h4>
 <p>
     
     @Html.ActionLink("Back to Users", "Index", "Users") |
     @Html.ActionLink("Create New Orders", "Create", "Orders", new { userId = @ViewBag.userId }, null)
-    
 </p>
-
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserFirstName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.TrackingId)
         </th>
@@ -38,12 +31,8 @@
         </th>
         <th></th>
     </tr>
-
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.UserFirstName)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TrackingId)
         </td>
@@ -64,11 +53,9 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { orderId = item.OrderID }) |
-            @Html.ActionLink("Details", "Details", new { orderId = item.OrderID }) |
+            @Html.ActionLink("Order Details", "Details", new { orderId = item.OrderID }) |
             @Html.ActionLink("Delete", "Delete", new { orderId = item.OrderID })
         </td>
     </tr>
-
 }
-
 </table>

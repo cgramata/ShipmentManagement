@@ -19,12 +19,15 @@ namespace ShipBobShipments.Controllers
         public ActionResult Index(int? userId)
         {
             var orders = from order in db.Orders select order;
+            User user = db.Users.Find(userId);
             if (userId == null)
             {
                 orders = db.Orders.Include(o => o.User);
                 return View(orders.ToList());
             }
+
             ViewBag.userId = userId;
+            ViewBag.userName = user.UserFirstName + " " + user.UserLastName;
             orders = orders.Where(o => o.UserID == userId);
             return View(orders);         
         }
@@ -82,12 +85,14 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Orders orders = db.Orders.Find(orderId);
             User users = db.Users.Find(orders.UserID);
             if (orders == null || users == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
             ViewBag.userIdNum = users.UserID;
             ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
