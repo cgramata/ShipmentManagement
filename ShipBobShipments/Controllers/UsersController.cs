@@ -18,16 +18,18 @@ namespace ShipBobShipments.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            ViewBag.UserServerObject = db.Users.ToList();
+            //return View(db.Users.ToList());
+            return View();
         }
 
         // GET: User rows from the table and return as a Json
-        public JsonResult GetUserList()
-        {
-            List<User> users = new List<User>();
-            users = db.Users.OrderBy(user => user.UserID).ToList();
-            return new JsonResult { Data = users, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        //public JsonResult GetUserList()
+        //{
+        //    List<User> users = new List<User>();
+        //    users = db.Users.OrderBy(user => user.UserID).ToList();
+        //    return new JsonResult { Data = users, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
 
         // GET: User details
         public ActionResult Orders(int? userId)

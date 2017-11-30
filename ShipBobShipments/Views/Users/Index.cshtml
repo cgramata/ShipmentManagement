@@ -12,6 +12,11 @@
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
+@Html.Raw(ViewBag.UserServerObject)
+
+@{ var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+   var userInfoJson = jss.Serialize(ViewBag.User)}
+
 <div ng-controller="UserIndexController">
     <table class="table">
         <tr>
