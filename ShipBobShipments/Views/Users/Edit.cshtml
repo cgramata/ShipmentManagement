@@ -4,7 +4,7 @@
 }
 <script type="text/javascript">
     //NOTE: Should refactor to local scope
-    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserObject));
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserEditObject));
 </script>
 <h2>Edit User</h2>
 @using (Html.BeginForm())
@@ -36,7 +36,7 @@
     </div>
 }
 <div>
-    <a href="/Users?userId={{currentUser.UserID}}">Back to User List</a>
+    <a href="/Users">Back to User List</a>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

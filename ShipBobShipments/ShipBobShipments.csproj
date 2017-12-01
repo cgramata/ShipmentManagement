@@ -167,6 +167,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="JS\app.js" />
+    <Content Include="JS\UserDeleteController.js" />
     <Content Include="JS\UserEditController.js" />
     <Content Include="JS\UserIndexController.js" />
     <Content Include="Scripts\angular-animate.js" />

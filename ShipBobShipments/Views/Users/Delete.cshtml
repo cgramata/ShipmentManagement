@@ -2,28 +2,35 @@
 @{
     ViewBag.Title = "Delete";
 }
+<script type="text/javascript">
+    //NOTE: Should refactor to local scope
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserDeleteObject));
+</script>
 <h2>Delete User</h2>
-<div>
+<div ng-controller="UserDeleteController">
     <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.UserFirstName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.UserFirstName)
+            {{currentUser.UserFirstName}}
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.UserLastName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.UserLastName)
+            {{currentUser.UserLastName}}
         </dd>
     </dl>
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to User List", "Index")
+            <a href="/Users">Back to User List</a>
         </div>
     }
 </div>
+@section scripts{
+    @Scripts.Render("~/JS/UserDeleteController.js")
+}

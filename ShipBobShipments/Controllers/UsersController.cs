@@ -80,7 +80,8 @@ namespace ShipBobShipments.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.ChosenUserObject = new {
+            ViewBag.ChosenUserEditObject = new
+            {
                 UserID = chosenUser.UserID,
                 UserFirstName = chosenUser.UserFirstName,
                 UserLastName = chosenUser.UserLastName
@@ -111,12 +112,20 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(userId);
-            if (user == null)
+
+            var chosenUser = db.Users.Find(userId);
+            if (chosenUser == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+
+            ViewBag.ChosenUserDeleteObject = new
+            {
+                UserID = chosenUser.UserID,
+                UserFirstName = chosenUser.UserFirstName,
+                UserLastName = chosenUser.UserLastName
+            };
+            return View(chosenUser);
         }
 
         // POST: Users/Delete/5
