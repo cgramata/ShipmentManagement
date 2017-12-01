@@ -10,6 +10,7 @@
 <p>
     @Html.ActionLink("Create New User", "Create")
 </p>
+<label>Filter Users: <input ng-model="searchInput" /></label>
 <div ng-controller="UserIndexController">
     <table class="table">
         <tr>
@@ -21,7 +22,7 @@
             </th>
             <th></th>
         </tr>
-        <tr ng-repeat="user in userList">
+        <tr ng-repeat="user in userList | filter:searchInput">
             <td>
                 {{user.UserFirstName}}
             </td>
