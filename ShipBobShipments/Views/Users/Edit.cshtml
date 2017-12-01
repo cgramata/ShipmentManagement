@@ -2,25 +2,29 @@
 @{
     ViewBag.Title = "Edit";
 }
+<script type="text/javascript">
+    //NOTE: Should refactor to local scope
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserObject));
+</script>
 <h2>Edit User</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
+    <div class="form-horizontal" ng-controller="UserEditController">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.UserID)
         <div class="form-group">
             @Html.LabelFor(model => model.UserFirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UserFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" data-val="true" data-val-length="First name has to be shorter than 10 characters" data-val-length-max="10" data-val-length-min="2" data-val-required="The User First Name: field is required." id="UserFirstName" name="UserFirstName" type="text" value={{currentUser.UserFirstName}}>
                 @Html.ValidationMessageFor(model => model.UserFirstName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.UserLastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UserLastName, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" data-val="true" data-val-length="Last name has to be shorter than 15 characters" data-val-length-max="15" data-val-length-min="2" data-val-required="The User Last Name: field is required." id="UserLastName" name="UserLastName" type="text" value={{currentUser.UserLastName}}>
                 @Html.ValidationMessageFor(model => model.UserLastName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -32,8 +36,9 @@
     </div>
 }
 <div>
-    @Html.ActionLink("Back to User List", "Index")
+    <a href="/Users?userId={{currentUser.UserID}}">Back to User List</a>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/JS/UserEditController.js")
 }

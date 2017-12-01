@@ -3,8 +3,8 @@
     ViewBag.Title = "Index";
 }
 <script type="text/javascript">
-        //NOTE: Should refactor to local scope
-        window.userInfo = @Html.Raw(Json.Encode(@ViewBag.UserServerObject));
+    //NOTE: Should refactor to local scope
+    window.userInfo = @Html.Raw(Json.Encode(@ViewBag.UserServerObject));
 </script>
 <h2>Users</h2>
 <p>
