@@ -2,55 +2,62 @@
 @{
     ViewBag.Title = "Details";
 }
-<h2>Order Details</h2>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.UserFirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.UserFirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TrackingId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TrackingId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RecipientName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RecipientName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.StreetAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StreetAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.State)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Zipcode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Zipcode)
-        </dd>
-    </dl>
+<script type="text/javascript">
+    //NOTE: Should refactor to local scope
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserDetailsObject));
+    window.chosenOrder = @Html.Raw(Json.Encode(@ViewBag.ChosenOrdersDetailsObject));
+</script>
+<div ng-controller="UserInformationController">
+    <h2>Order Details</h2>
+    <h4>For User: {{currentUser.UserFirstName}}&nbsp;{{currentUser.UserLastName}}</h4>
+    <div ng-controller="OrdersDetailsController">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TrackingId):
+            </dt>
+            <dd>
+                {{currentOrder.TrackingId}}
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientName):
+            </dt>
+            <dd>
+                {{currentOrder.RecipientName}}
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.StreetAddress):
+            </dt>
+            <dd>
+                {{currentOrder.StreetAddress}}
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.City):
+            </dt>
+            <dd>
+                {{currentOrder.City}}
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.State):
+            </dt>
+            <dd>
+                {{currentOrder.State}}
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Zipcode):
+            </dt>
+            <dd>
+                {{currentOrder.Zipcode}}
+            </dd>
+        </dl>
+        <p>
+            <a href="/Orders/Edit?orderId={{currentOrder.OrderID}}">Edit Order</a> |
+            <a href="/Orders?userId={{currentUser.UserID}}">Back to Order List</a>
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit Order", "Edit", new { orderId = Model.OrderID }) |
-    @Html.ActionLink("Back to Order List", "Index", new { userId = Model.UserID})
-</p>
+@section scripts{
+    @Scripts.Render("~/JS/UserInformationController.js")
+    @Scripts.Render("~/JS/OrdersDetailsController.js")
+}
+

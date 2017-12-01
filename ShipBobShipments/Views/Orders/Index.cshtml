@@ -2,60 +2,70 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Orders List</h2>
-<h4>User: @ViewBag.userName</h4>
-<p>
-    
-    @Html.ActionLink("Back to Users", "Index", "Users") |
-    @Html.ActionLink("Create New Orders", "Create", "Orders", new { userId = @ViewBag.userId }, null)
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TrackingId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RecipientName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StreetAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zipcode)
-        </th>
-        <th></th>
-    </tr>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrackingId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RecipientName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StreetAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Zipcode)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { orderId = item.OrderID }) |
-            @Html.ActionLink("Order Details", "Details", new { orderId = item.OrderID }) |
-            @Html.ActionLink("Delete", "Delete", new { orderId = item.OrderID })
-        </td>
-    </tr>
+<script type="text/javascript">
+    //NOTE: Should refactor to local scope
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserDetailsObject));
+    window.orderInfo = @Html.Raw(Json.Encode(@ViewBag.ChosenUserOrdersListObject));
+</script>
+<div ng-controller="UserInformationController">
+    <h2>Orders List</h2>
+    <h4>For User: {{currentUser.UserFirstName}}&nbsp;{{currentUser.UserLastName}}</h4>
+    <div ng-controller="OrdersIndexController">
+        <p>
+            <a href="/Users">Back to Users</a>&nbsp;|
+            <a href="/Orders/Create?userId={{currentUser.UserID}}">Create New Orders</a>
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TrackingId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RecipientName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StreetAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.State)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Zipcode)
+                </th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="order in orderList">
+                <td>
+                    {{order.TrackingId}}
+                </td>
+                <td>
+                    {{order.RecipientName}}
+                </td>
+                <td>
+                    {{order.StreetAddress}}
+                </td>
+                <td>
+                    {{order.City}}
+                </td>
+                <td>
+                    {{order.State}}
+                </td>
+                <td>
+                    {{order.Zipcode}}
+                </td>
+                <td>
+                    <a href="/Orders/Edit?orderId={{order.OrderID}}">Edit</a>&nbsp;|
+                    <a href="/Orders/Details?orderId={{order.OrderID}}">Order Details</a>&nbsp;|
+                    <a href="/Orders/Delete?orderId={{order.OrderID}}">Delete</a>
+                </td>
+            </tr>          
+        </table>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/JS/UserInformationController.js")
+    @Scripts.Render("~/JS/OrdersIndexController.js")
 }
-</table>

@@ -18,18 +18,36 @@ namespace ShipBobShipments.Controllers
         // GET: Orders specific to the user
         public ActionResult Index(int? userId)
         {
-            var orders = from order in db.Orders select order;
-            User user = db.Users.Find(userId);
             if (userId == null)
             {
-                orders = db.Orders.Include(o => o.User);
-                return View(orders.ToList());
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ViewBag.userId = userId;
-            ViewBag.userName = user.UserFirstName + " " + user.UserLastName;
-            orders = orders.Where(o => o.UserID == userId);
-            return View(orders);         
+            var chosenUser = db.Users.Find(userId);
+            var userOrderList = db.Orders.Where(order => order.UserID == userId);
+            if (chosenUser == null || userOrderList == null)
+            {
+                return HttpNotFound();
+            }
+
+            var orders = userOrderList.Select(order => new {
+                OrderID = order.OrderID,
+                TrackingId = order.TrackingId,
+                RecipientName = order.RecipientName,
+                StreetAddress = order.StreetAddress,
+                City = order.City,
+                State = order.State,
+                Zipcode = order.Zipcode
+            });
+
+            ViewBag.ChosenUserOrdersListObject = orders;
+            ViewBag.ChosenUserDetailsObject = new
+            {
+                UserID = chosenUser.UserID,
+                UserFirstName = chosenUser.UserFirstName,
+                UserLastName = chosenUser.UserLastName
+            };
+            return View(userOrderList);         
         }
 
         // GET: Orders/Details/5
@@ -39,12 +57,31 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orders orders = db.Orders.Find(orderId);
-            if (orders == null)
+
+            var chosenOrder = db.Orders.Find(orderId);
+            if (chosenOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(orders);
+
+            var chosenUser = db.Users.Find(chosenOrder.UserID);
+            ViewBag.ChosenUserDetailsObject = new
+            {
+                UserID = chosenUser.UserID,
+                UserFirstName = chosenUser.UserFirstName,
+                UserLastName = chosenUser.UserLastName
+            };
+            ViewBag.ChosenOrdersDetailsObject = new
+            {
+                OrderID = chosenOrder.OrderID,
+                TrackingId = chosenOrder.TrackingId,
+                RecipientName = chosenOrder.RecipientName,
+                StreetAddress = chosenOrder.StreetAddress,
+                City = chosenOrder.City,
+                State = chosenOrder.State,
+                Zipcode = chosenOrder.Zipcode
+            };
+            return View(chosenOrder);
         }
 
         // GET: Orders/Create
@@ -123,13 +160,29 @@ namespace ShipBobShipments.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orders orders = db.Orders.Find(orderId);
-            if (orders == null)
+            
+            var chosenOrder = db.Orders.Find(orderId);
+            if (chosenOrder == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.userId = orders.UserID;
-            return View(orders);
+
+            var chosenUser = db.Users.Find(chosenOrder.UserID);
+            ViewBag.ChosenUserDeleteObject = new {
+                UserID = chosenUser.UserID,
+                UserFirstName = chosenUser.UserFirstName,
+                UserLastName = chosenUser.UserLastName
+            };
+            ViewBag.ChosenOrdersDeleteObject = new
+            {
+                TrackingId = chosenOrder.TrackingId,
+                RecipientName = chosenOrder.RecipientName,
+                StreetAddress = chosenOrder.StreetAddress,
+                City = chosenOrder.City,
+                State = chosenOrder.State,
+                Zipcode = chosenOrder.Zipcode
+            };
+            return View(chosenOrder);
         }
 
         // POST: Orders/Delete/5
