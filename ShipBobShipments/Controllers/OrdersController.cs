@@ -123,17 +123,35 @@ namespace ShipBobShipments.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Orders orders = db.Orders.Find(orderId);
-            User users = db.Users.Find(orders.UserID);
-            if (orders == null || users == null)
+            var chosenOrder = db.Orders.Find(orderId);
+            if (chosenOrder == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.userName = users.UserFirstName + " " + users.UserLastName;
-            ViewBag.userIdNum = users.UserID;
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "UserFirstName", orders.UserID);
-            return View(orders);
+            var chosenUser = db.Users.Find(chosenOrder.UserID);
+            if (chosenUser == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ChosenUserDetailsObject = new
+            {
+                UserID = chosenUser.UserID,
+                UserFirstName = chosenUser.UserFirstName,
+                UserLastName = chosenUser.UserLastName
+            };
+            ViewBag.ChosenOrdersEditObject = new
+            {
+                OrderID = chosenOrder.OrderID,
+                TrackingID = chosenOrder.TrackingId,
+                RecipientName = chosenOrder.RecipientName,
+                StreetAddress = chosenOrder.StreetAddress,
+                City = chosenOrder.City,
+                State = chosenOrder.State,
+                Zipcode = chosenOrder.Zipcode
+            };
+            return View(chosenOrder);
         }
 
         // POST: Orders/Edit/5

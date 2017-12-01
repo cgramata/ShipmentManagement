@@ -169,6 +169,7 @@
     <Content Include="JS\app.js" />
     <Content Include="JS\OrdersDeleteController.js" />
     <Content Include="JS\OrdersDetailsController.js" />
+    <Content Include="JS\OrdersEditController.js" />
     <Content Include="JS\OrdersIndexController.js" />
     <Content Include="JS\UserDeleteController.js" />
     <Content Include="JS\UserEditController.js" />

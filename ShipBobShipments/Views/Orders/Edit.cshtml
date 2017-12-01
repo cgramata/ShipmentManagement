@@ -2,74 +2,83 @@
 @{
     ViewBag.Title = "Edit";
 }
-<h2>Edit Order</h2>
-<h4>For User: @ViewBag.userName</h4>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.OrderID)
-        <div class="form-group">
-            @Html.HiddenFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.HiddenFor(model => model.UserID, new { @class = "form-control", Value = @ViewBag.userIdNum })
-                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+<script type="text/javascript">
+    //NOTE: Should refactor to local scope
+    window.chosenUser = @Html.Raw(Json.Encode(@ViewBag.ChosenUserDetailsObject));
+    window.orderInfo = @Html.Raw(Json.Encode(@ViewBag.ChosenOrdersEditObject));
+</script>
+<div ng-controller="UserInformationController">
+    <h2>Edit Order</h2>
+    <h4>For User: {{currentUser.UserFirstName}}&nbsp;{{currentUser.UserLastName}}</h4>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal" ng-controller="OrdersEditController">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.OrderID)
+            <div class="form-group">
+                @Html.HiddenFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.UserID, new { @class = "form-control", Value = @ViewBag.userIdNum })
+                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TrackingId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-length="Shipment Name has to be shorter than 20 characters" data-val-length-max="20" data-val-length-min="2" data-val-required="The Shipment Name field is required." id="TrackingId" name="TrackingId" type="text" value={{currentOrder.TrackingID}}>
+                    @Html.ValidationMessageFor(model => model.TrackingId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RecipientName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-length="Recipient Name has to be shorter than 30 characters" data-val-length-max="30" data-val-length-min="2" data-val-required="The Recipient Name field is required." id="RecipientName" name="RecipientName" type="text" value={{currentOrder.RecipientName}}>
+                    @Html.ValidationMessageFor(model => model.RecipientName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StreetAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="The Street Address field is required." id="StreetAddress" name="StreetAddress" type="text" value={{currentOrder.StreetAddress}}>
+                    @Html.ValidationMessageFor(model => model.StreetAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="The City field is required." id="City" name="City" type="text" value={{currentOrder.City}}>
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="The State field is required." id="State" name="State" type="text" value={{currentOrder.State}}>
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" data-val="true" data-val-length="Zipcode has to be 5 characters long" data-val-length-max="5" data-val-length-min="5" data-val-required="The Zipcode field is required." id="Zipcode" name="Zipcode" type="text" value={{currentOrder.Zipcode}}>
+                    @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.TrackingId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TrackingId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TrackingId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.RecipientName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RecipientName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RecipientName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.StreetAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StreetAddress, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StreetAddress, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Zipcode, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+    }
+    <div>
+        <a href="/Orders?userId={{currentUser.UserID}}">Back to Orders List</a>
     </div>
-}
-<div>
-    @Html.ActionLink("Back to List", "Index", new { userId = Model.UserID})
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/JS/UserInformationController.js")
+    @Scripts.Render("~/JS/OrdersEditController.js")
 }

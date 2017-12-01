@@ -16,7 +16,7 @@ namespace ShipBobShipments.Models
         public int UserID { get; set; }
 
         [Required()]
-        [Display(Name = "Shipment Name")]
+        [Display(Name = "Tracking ID")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Shipment Name has to be shorter than 20 characters")]
         public string TrackingId { get; set; }
 
