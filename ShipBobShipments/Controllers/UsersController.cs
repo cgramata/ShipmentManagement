@@ -12,12 +12,17 @@ namespace ShipBobShipments.Controllers
     {
         private ShipmentDBContext db = new ShipmentDBContext();
 
-        // GET: Users
+        // Retrieves users for the user index 
+        // Users/Index
         public ActionResult Index()
         {
             //possible repository 
             var userList = db.Users.ToList();
-        
+            if (userList == null)
+            {
+                return HttpNotFound();
+            }
+
             var users = userList.Select(v => new {
                 UserID = v.UserID,
                 UserFirstName = v.UserFirstName,
@@ -29,6 +34,7 @@ namespace ShipBobShipments.Controllers
         }
 
         //Redirects to Order's index page with userId
+        // Orders/Index
         public ActionResult Orders(int? userId)
         {
             if (userId == null)
@@ -57,11 +63,11 @@ namespace ShipBobShipments.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        // Retrieves user info before being the edit
+        // GET: Users/Edit/
         public ActionResult Edit(int? userId)
         {
             if (userId == null)
@@ -84,7 +90,7 @@ namespace ShipBobShipments.Controllers
             return View(chosenUser);
         }
 
-        // POST: Users/Edit/5
+        // POST: Users/Edit/
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -100,7 +106,8 @@ namespace ShipBobShipments.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        // Retrieves user information before deletion
+        // GET: Users/Delete/
         public ActionResult Delete(int? userId)
         {
             if (userId == null)
@@ -123,7 +130,8 @@ namespace ShipBobShipments.Controllers
             return View(chosenUser);
         }
 
-        // POST: Users/Delete/5
+        // Saves the deletion to the table in the DB
+        // POST: Users/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int userId)
